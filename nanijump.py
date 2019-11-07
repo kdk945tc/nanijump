@@ -112,13 +112,15 @@ caseNum = 1
 bushDone = 0
 caseDone = 0
 
+bg = transform.scale(image.load("img/bg.png"), (500, 140))
+
 while True:
     if end:
         while True:
             font.init()
             textFont = font.SysFont('arial', 20)
             text = 'PRESS SPACE TO RETRY...'
-            window.blit(textFont.render(text, False, Color(20, 20, 20)), (20, 10))
+            window.blit(textFont.render(text, False, Color(20, 20, 20)), (20, 5))
             display.update()
             eve = getEvent()
             if eve == 'SPACE_down' :
@@ -145,6 +147,8 @@ while True:
     if time.get_ticks() - timeFlag < 5:
         continue
     window.fill((233, 233, 233))
+    window.blit(bg, (-200, 0))
+    window.blit(bg, (300, 0))
     bushRan = randint(1, 10000)
     if bushRan >9980:
         bush.append(Bush(time.get_ticks()))
@@ -197,7 +201,7 @@ while True:
 
     frame = (frame+1) % 100
     window.blit(transform.scale(girl.display(stand, facingRight, int(frame/25)), (50, 80)), (x, 100+y))
-    window.blit(addText(bushDone, caseDone),(580,10))
+    window.blit(addText(bushDone, caseDone),(580,5))
     display.update()
     timeFlag = time.get_ticks()
 
