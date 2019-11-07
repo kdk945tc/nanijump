@@ -11,7 +11,7 @@ def addText(bushDone, caseDone):
     textFont = font.SysFont('arial', 20)
     totalScore = bushDone * 2 + caseDone * 3
     text = 'SCORE:  ' + str(totalScore)
-    return textFont.render(text, True, Color(20, 20, 20))
+    return textFont.render(text, True, (20, 20, 20))
 
 
 
@@ -101,6 +101,7 @@ y = 0
 moveleft = 0
 moveright = 0
 frame = 0
+frame2 = 0
 facingRight = 1
 stand = 1
 pos = 0
@@ -120,7 +121,7 @@ while True:
             font.init()
             textFont = font.SysFont('arial', 20)
             text = 'PRESS SPACE TO RETRY...'
-            window.blit(textFont.render(text, False, Color(20, 20, 20)), (20, 5))
+            window.blit(textFont.render(text, False, (20, 20, 20)), (20, 5))
             display.update()
             eve = getEvent()
             if eve == 'SPACE_down' :
@@ -133,6 +134,7 @@ while True:
                 moveleft = 0
                 moveright = 0
                 frame = 0
+                frame2 = 0
                 facingRight = 1
                 stand = 1
                 pos = 0
@@ -146,9 +148,11 @@ while True:
                 break
     if time.get_ticks() - timeFlag < 5:
         continue
+    frame2 = (frame2+1)%1000
     window.fill((233, 233, 233))
-    window.blit(bg, (-200, 0))
-    window.blit(bg, (300, 0))
+    window.blit(bg, (-200-frame2/2, 0))
+    window.blit(bg, (300-frame2/2, 0))
+    window.blit(bg, (800 - frame2/2, 0))
     bushRan = randint(1, 10000)
     if bushRan >9980:
         bush.append(Bush(time.get_ticks()))
@@ -200,6 +204,7 @@ while True:
         else: y = pos - 120
 
     frame = (frame+1) % 100
+
     window.blit(transform.scale(girl.display(stand, facingRight, int(frame/25)), (50, 80)), (x, 100+y))
     window.blit(addText(bushDone, caseDone),(580,5))
     display.update()
