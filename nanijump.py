@@ -166,6 +166,7 @@ while True:
     #window.blit(image.load('img/background.png'), (0,0))
     for i in range(bushNum):
         window.blit(bush[len(bush)-i-1].display(), (bush[len(bush)-i-1].move(time.get_ticks(), 7.0), 150))
+        draw.ellipse(window, (220, 220, 220), (bush[len(bush)-i-1].move(time.get_ticks(), 7.0), 178, 25, 7), 0)
         if bush[len(bush)-i-1].getEdge() <= -10: bushNum -= 1; bushDone+=1
         if y > -20 and bush[len(bush)-i-1].getEdge() < x < bush[len(bush)-i-1].getEdge() + 20:
             print("End!")
@@ -174,6 +175,7 @@ while True:
 
     for i in range(caseNum):
         window.blit(case[len(case)-i-1].display(), (case[len(case)-i-1].move(time.get_ticks(), 4.0), 130))
+        draw.ellipse(window, (220, 220, 220), (case[len(case) - i - 1].move(time.get_ticks(), 4.0), 178, 30, 8), 0)
         if case[len(case) - i - 1].getEdge() <= -10: caseNum -= 1; caseDone+=1
         if y > -30 and case[len(case)-i-1].getEdge() < x < case[len(case)-i-1].getEdge() + 10:
             print("End!")
@@ -204,9 +206,10 @@ while True:
         else: y = pos - 120
 
     frame = (frame+1) % 100
-
+    draw.ellipse(window, (220, 220, 220), (x+6, 178, 35+y/6, 8+y/10), 0)
     window.blit(transform.scale(girl.display(stand, facingRight, int(frame/25)), (50, 80)), (x, 100+y))
     window.blit(addText(bushDone, caseDone),(580,5))
+
     display.update()
     timeFlag = time.get_ticks()
 
