@@ -21,17 +21,8 @@ def getEvent():
         if eve.type == QUIT:
             exit()
         if eve.type == KEYDOWN:
-            if eve.key == K_RIGHT:
-                return "R_down"
-            if eve.key == K_LEFT:
-                return "L_down"
             if eve.key == K_SPACE:
                 return 'SPACE_down'
-        if eve.type == KEYUP:
-            if eve.key == K_RIGHT:
-                return "R_up"
-            if eve.key == K_LEFT:
-                return "L_up"
 
 class Figure:
     def __init__(self):
@@ -92,35 +83,17 @@ def jump(pos):
     pos += 1
     return pos
 
-init()
-timeFlag = time.get_ticks()
-girl = Figure()
-speed = 2
-x = 0
-y = 0
-moveleft = 0
-moveright = 0
-frame = 0
-frame2 = 0
-facingRight = 1
-stand = 1
-pos = 0
-end = False
-bush = [Bush(time.get_ticks())]
-case = [Case(time.get_ticks())]
-bushNum = 1
-caseNum = 1
-bushDone = 0
-caseDone = 0
+
 
 bg = transform.scale(image.load("img/bg.png"), (500, 140))
-
+window.fill((240, 240, 240))
+end = True
 while True:
     if end:
         while True:
             font.init()
             textFont = font.SysFont('arial', 20)
-            text = 'PRESS SPACE TO RETRY...'
+            text = 'PRESS SPACE TO START'
             window.blit(textFont.render(text, False, (20, 20, 20)), (20, 5))
             display.update()
             eve = getEvent()
@@ -181,11 +154,22 @@ while True:
             print("End!")
             end = True
 
-    eve = getEvent()
-    if eve == "L_down": moveleft = 1
-    if eve == "L_up": moveleft = 0
-    if eve == 'R_down': moveright = 1
-    if eve == "R_up": moveright = 0
+    eventList = event.get()
+    for eve in eventList:
+        if eve.type == QUIT:
+            exit()
+        if eve.type == KEYDOWN:
+            if eve.key == K_RIGHT:
+                moveright = 1
+            if eve.key == K_LEFT:
+                moveleft = 1
+            if eve.key == K_SPACE and pos == 0:
+                pos = 1
+        if eve.type == KEYUP:
+            if eve.key == K_RIGHT:
+                moveright = 0
+            if eve.key == K_LEFT:
+                moveleft = 0
     if moveleft and x > 0:
         x -= speed
         facingRight = 0
@@ -196,8 +180,7 @@ while True:
         stand = 0
     if moveleft == 0 and moveright == 0:
         stand = 1
-    if eve == 'SPACE_down' and pos == 0:
-        pos = 1
+
     pos = jump(pos)
     if pos:
         stand = 2
